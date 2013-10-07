@@ -1,0 +1,120 @@
+﻿using System.Diagnostics;
+
+namespace Parsing.Arithmetic.Expressions
+{
+    public abstract class BinaryExpression : Expression
+    {
+        protected BinaryExpression(Expression left, Expression right)
+        {
+            Debug.Assert(left != null);
+            Debug.Assert(right != null);
+
+            Left = left;
+            Right = right;
+        }
+
+        protected Expression Left { get; private set; }
+        protected Expression Right { get; private set; }
+    }
+
+    public sealed class Addition : BinaryExpression
+    {
+        public Addition(Expression left, Expression right)
+            : base(left, right)
+        {
+        }
+
+        public override MathValue Evaluate(MathContext mathContext)
+        {
+            double lval = Left.Evaluate(mathContext).ToNumber();
+            double rval = Right.Evaluate(mathContext).ToNumber();
+            return new MathNumber(lval + rval);
+        }
+
+        public override string ToString()
+        {
+            return string.Format("({0}+{1})", Left, Right);
+        }
+    }
+
+    public sealed class Subtraction : BinaryExpression
+    {
+        public Subtraction(Expression left, Expression right)
+            : base(left, right)
+        {
+        }
+
+        public override MathValue Evaluate(MathContext mathContext)
+        {
+            double lval = Left.Evaluate(mathContext).ToNumber();
+            double rval = Right.Evaluate(mathContext).ToNumber();
+            return new MathNumber(lval - rval);
+        }
+
+        public override string ToString()
+        {
+            return string.Format("({0}-{1})", Left, Right);
+        }
+    }
+
+    public sealed class Multiplication : BinaryExpression
+    {
+        public Multiplication(Expression left, Expression right)
+            : base(left, right)
+        {
+        }
+
+        public override MathValue Evaluate(MathContext mathContext)
+        {
+            double lval = Left.Evaluate(mathContext).ToNumber();
+            double rval = Right.Evaluate(mathContext).ToNumber();
+            return new MathNumber(lval * rval);
+        }
+
+        public override string ToString()
+        {
+            return string.Format("({0}*{1})", Left, Right);
+        }
+    }
+
+    public sealed class Division : BinaryExpression
+    {
+        public Division(Expression left, Expression right)
+            : base(left, right)
+        {
+        }
+
+        public override MathValue Evaluate(MathContext mathContext)
+        {
+            double lval = Left.Evaluate(mathContext).ToNumber();
+            double rval = Right.Evaluate(mathContext).ToNumber();
+            return new MathNumber(lval / rval);
+        }
+
+        public override string ToString()
+        {
+            return string.Format("({0}/{1})", Left, Right);
+        }
+    }
+
+    public sealed class Modulo : BinaryExpression
+    {
+        public Modulo(Expression left, Expression right)
+            : base(left, right)
+        {
+        }
+
+        public override MathValue Evaluate(MathContext mathContext)
+        {
+            // TODO: Correct rules
+            double lval = Left.Evaluate(mathContext).ToNumber();
+            double rval = Right.Evaluate(mathContext).ToNumber();
+            return new MathNumber(lval % rval);
+        }
+
+        public override string ToString()
+        {
+            return string.Format("({0}%{1})", Left, Right);
+        }
+    }
+}
