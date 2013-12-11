@@ -7,7 +7,7 @@ namespace Parsing
 
     #region Extensions
 
-    internal static class Extensions
+    public static class Extensions
     {
         public static bool IsDec(this int c)
         {
