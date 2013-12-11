@@ -13,7 +13,7 @@ namespace Parsing.Arithmetic
 
         public static MathValue Interpret(string mathCode)
         {
-            IEnumerator<Token> tokens = Scanner.Scan(new StringReader(mathCode));
+            var tokens = Scanner.Scan(new StringReader(mathCode));
             var expression = (Expression)Parser.Parse(tokens);
 
             Console.WriteLine("Input:  " + mathCode);

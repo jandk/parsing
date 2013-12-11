@@ -97,7 +97,6 @@ namespace Parsing.Arithmetic
 
         private Expression Factor()
         {
-            Expression expr;
             switch (_ts.Current.Kind)
             {
                 case Kind.Boolean:
@@ -120,7 +119,7 @@ namespace Parsing.Arithmetic
 
                 case Kind.ParenLeft:
                     _ts.MoveNext();
-                    expr = Expr();
+                    Expression expr = Expr();
                     if (_ts.Current.Kind != Kind.ParenRight)
                         throw new Exception("Parse error: expected ')'");
                     _ts.MoveNext();
