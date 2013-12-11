@@ -1,4 +1,4 @@
-parsing.arithmetic
-==================
+parsing
+=======
 
 Parser for arithmetic
