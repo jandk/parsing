@@ -78,6 +78,8 @@ namespace Parsing
         where TToken : IToken
     {
         IEnumerator<TToken> Scan(TextReader reader);
+
+        void Reset();
     }
 
     #endregion
@@ -89,6 +91,12 @@ namespace Parsing
         where TToken : IToken
     {
         protected TextReader _reader;
+
+        public void Reset()
+        {
+            _peek = null;
+            _reader = null;
+        }
 
         public IEnumerator<TToken> Scan(TextReader reader)
         {
