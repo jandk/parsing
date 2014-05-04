@@ -93,7 +93,7 @@ namespace Parsing.Arithmetic
                         break;
 
                     default:
-                        Throw(string.Format("Illegal charcter '{0}'", read));
+                        Throw(string.Format("Illegal charcter '{0}'", (char)read));
                         break;
                 }
 
