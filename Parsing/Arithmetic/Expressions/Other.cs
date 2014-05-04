@@ -14,13 +14,13 @@ namespace Parsing.Arithmetic.Expressions
             _args = args;
         }
 
-        public override MathValue Evaluate(MathContext mathContext)
+        public override MathValue Evaluate(MathContext context)
         {
-            var function = mathContext.Get(_name) as MathFunction;
+            var function = context.Get(_name) as MathFunction;
             if (function == null)
                 throw new MathException("Invalid function name: " + _name);
 
-            MathValue[] values = _args.Select(arg => arg.Evaluate(mathContext)).ToArray();
+            MathValue[] values = _args.Select(arg => arg.Evaluate(context)).ToArray();
             return function.Function(values);
         }
 
@@ -49,9 +49,9 @@ namespace Parsing.Arithmetic.Expressions
             _name = name;
         }
 
-        public override MathValue Evaluate(MathContext mathContext)
+        public override MathValue Evaluate(MathContext context)
         {
-            return mathContext.Get(_name);
+            return context.Get(_name);
         }
 
         public override string ToString()

@@ -28,7 +28,7 @@ namespace Parsing.Arithmetic.Expressions
         {
         }
 
-        public override MathValue Evaluate(MathContext mathContext)
+        public override MathValue Evaluate(MathContext context)
         {
             return new MathBoolean(Value);
         }
@@ -46,7 +46,7 @@ namespace Parsing.Arithmetic.Expressions
         {
         }
 
-        public override MathValue Evaluate(MathContext mathContext)
+        public override MathValue Evaluate(MathContext context)
         {
             return new MathNumber(Value);
         }

@@ -6,7 +6,7 @@
 
     public abstract class Expression : Node
     {
-        public abstract MathValue Evaluate(MathContext mathContext);
+        public abstract MathValue Evaluate(MathContext context);
     }
 
     public abstract class Statement : Node

@@ -25,10 +25,10 @@ namespace Parsing.Arithmetic.Expressions
         {
         }
 
-        public override MathValue Evaluate(MathContext mathContext)
+        public override MathValue Evaluate(MathContext context)
         {
-            double lval = Left.Evaluate(mathContext).ToNumber();
-            double rval = Right.Evaluate(mathContext).ToNumber();
+            double lval = Left.Evaluate(context).ToNumber();
+            double rval = Right.Evaluate(context).ToNumber();
             return new MathNumber(lval + rval);
         }
 
@@ -45,10 +45,10 @@ namespace Parsing.Arithmetic.Expressions
         {
         }
 
-        public override MathValue Evaluate(MathContext mathContext)
+        public override MathValue Evaluate(MathContext context)
         {
-            double lval = Left.Evaluate(mathContext).ToNumber();
-            double rval = Right.Evaluate(mathContext).ToNumber();
+            double lval = Left.Evaluate(context).ToNumber();
+            double rval = Right.Evaluate(context).ToNumber();
             return new MathNumber(lval - rval);
         }
 
@@ -65,10 +65,10 @@ namespace Parsing.Arithmetic.Expressions
         {
         }
 
-        public override MathValue Evaluate(MathContext mathContext)
+        public override MathValue Evaluate(MathContext context)
         {
-            double lval = Left.Evaluate(mathContext).ToNumber();
-            double rval = Right.Evaluate(mathContext).ToNumber();
+            double lval = Left.Evaluate(context).ToNumber();
+            double rval = Right.Evaluate(context).ToNumber();
             return new MathNumber(lval * rval);
         }
 
@@ -85,10 +85,10 @@ namespace Parsing.Arithmetic.Expressions
         {
         }
 
-        public override MathValue Evaluate(MathContext mathContext)
+        public override MathValue Evaluate(MathContext context)
         {
-            double lval = Left.Evaluate(mathContext).ToNumber();
-            double rval = Right.Evaluate(mathContext).ToNumber();
+            double lval = Left.Evaluate(context).ToNumber();
+            double rval = Right.Evaluate(context).ToNumber();
             return new MathNumber(lval / rval);
         }
 
@@ -105,11 +105,11 @@ namespace Parsing.Arithmetic.Expressions
         {
         }
 
-        public override MathValue Evaluate(MathContext mathContext)
+        public override MathValue Evaluate(MathContext context)
         {
             // TODO: Correct rules
-            double lval = Left.Evaluate(mathContext).ToNumber();
-            double rval = Right.Evaluate(mathContext).ToNumber();
+            double lval = Left.Evaluate(context).ToNumber();
+            double rval = Right.Evaluate(context).ToNumber();
             return new MathNumber(lval % rval);
         }
 
@@ -127,11 +127,11 @@ namespace Parsing.Arithmetic.Expressions
         {
         }
 
-        public override MathValue Evaluate(MathContext mathContext)
+        public override MathValue Evaluate(MathContext context)
         {
             // TODO: Correct rules
-            double lval = Left.Evaluate(mathContext).ToNumber();
-            double rval = Right.Evaluate(mathContext).ToNumber();
+            double lval = Left.Evaluate(context).ToNumber();
+            double rval = Right.Evaluate(context).ToNumber();
             return new MathNumber(Math.Pow(lval, rval));
         }
 

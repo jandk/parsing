@@ -21,9 +21,9 @@ namespace Parsing.Arithmetic.Expressions
         {
         }
 
-        public override MathValue Evaluate(MathContext mathContext)
+        public override MathValue Evaluate(MathContext context)
         {
-            double value = Child.Evaluate(mathContext).ToNumber();
+            double value = Child.Evaluate(context).ToNumber();
 
             return new MathNumber(value);
         }
@@ -41,9 +41,9 @@ namespace Parsing.Arithmetic.Expressions
         {
         }
 
-        public override MathValue Evaluate(MathContext mathContext)
+        public override MathValue Evaluate(MathContext context)
         {
-            double value = Child.Evaluate(mathContext).ToNumber();
+            double value = Child.Evaluate(context).ToNumber();
 
             if (double.IsNaN(value))
                 return new MathNumber(double.NaN);
@@ -64,9 +64,9 @@ namespace Parsing.Arithmetic.Expressions
         {
         }
 
-        public override MathValue Evaluate(MathContext mathContext)
+        public override MathValue Evaluate(MathContext context)
         {
-            int value = Child.Evaluate(mathContext).ToInt32();
+            int value = Child.Evaluate(context).ToInt32();
             return new MathInteger(~value);
         }
 
@@ -83,9 +83,9 @@ namespace Parsing.Arithmetic.Expressions
         {
         }
 
-        public override MathValue Evaluate(MathContext mathContext)
+        public override MathValue Evaluate(MathContext context)
         {
-            bool value = Child.Evaluate(mathContext).ToBoolean();
+            bool value = Child.Evaluate(context).ToBoolean();
             return new MathBoolean(!value);
         }
 
