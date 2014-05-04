@@ -18,6 +18,7 @@
         OpMultiply,
         OpDivide,
         OpModulo,
+        OpPower,
         OpBinaryNot,
         OpLogicalNot,
     }

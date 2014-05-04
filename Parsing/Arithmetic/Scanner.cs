@@ -61,7 +61,10 @@ namespace Parsing.Arithmetic
                         break;
 
                     case '*':
-                        yield return Token.FromKind(Kind.OpMultiply);
+                        if (Maybe('*'))
+                            yield return Token.FromKind(Kind.OpPower);
+                        else
+                            yield return Token.FromKind(Kind.OpMultiply);
                         break;
 
                     case '/':

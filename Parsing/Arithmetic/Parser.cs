@@ -91,7 +91,25 @@ namespace Parsing.Arithmetic
                     return new LogicalNot(Unary());
 
                 default:
-                    return Factor();
+                    return Power();
+            }
+        }
+
+        private Expression Power()
+        {
+            return PowerCont(Factor());
+        }
+
+        private Expression PowerCont(Expression inval)
+        {
+            switch (_ts.Current.Kind)
+            {
+                case Kind.OpPower:
+                    _ts.MoveNext();
+                    return new Power(inval, Power());
+
+                default:
+                    return inval;
             }
         }
 

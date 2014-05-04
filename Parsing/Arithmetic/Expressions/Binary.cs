@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 
 namespace Parsing.Arithmetic.Expressions
 {
@@ -115,6 +116,28 @@ namespace Parsing.Arithmetic.Expressions
         public override string ToString()
         {
             return string.Format("({0}%{1})", Left, Right);
+        }
+    }
+
+
+    public sealed class Power : BinaryExpression
+    {
+        public Power(Expression left, Expression right)
+            : base(left, right)
+        {
+        }
+
+        public override MathValue Evaluate(MathContext mathContext)
+        {
+            // TODO: Correct rules
+            double lval = Left.Evaluate(mathContext).ToNumber();
+            double rval = Right.Evaluate(mathContext).ToNumber();
+            return new MathNumber(Math.Pow(lval, rval));
+        }
+
+        public override string ToString()
+        {
+            return string.Format("({0}**{1})", Left, Right);
         }
     }
 }
