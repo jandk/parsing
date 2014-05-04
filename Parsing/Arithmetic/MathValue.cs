@@ -3,13 +3,7 @@ using System.Globalization;
 
 namespace Parsing.Arithmetic
 {
-    public interface IValue
-    {
-        bool ToBoolean();
-        double ToNumber();
-    }
-
-    public abstract class MathValue : IValue
+    public abstract class MathValue
     {
         public abstract bool ToBoolean();
         public abstract double ToNumber();
@@ -35,76 +29,76 @@ namespace Parsing.Arithmetic
 
     public sealed class MathBoolean : MathValue
     {
-        private readonly bool value;
+        private readonly bool _value;
 
         public MathBoolean(bool value)
         {
-            this.value = value;
+            _value = value;
         }
 
         public override bool ToBoolean()
         {
-            return value;
+            return _value;
         }
 
         public override double ToNumber()
         {
-            return value ? 1 : 0;
+            return _value ? 1 : 0;
         }
 
         public override string ToString()
         {
-            return value.ToString(CultureInfo.InvariantCulture).ToLowerInvariant();
+            return _value.ToString(CultureInfo.InvariantCulture).ToLowerInvariant();
         }
     }
 
     public sealed class MathNumber : MathValue
     {
-        private readonly double value;
+        private readonly double _value;
 
         public MathNumber(double value)
         {
-            this.value = value;
+            _value = value;
         }
 
         public override bool ToBoolean()
         {
-            return !(value == 0 || double.IsNaN(value));
+            return !(_value == 0 || double.IsNaN(_value));
         }
 
         public override double ToNumber()
         {
-            return value;
+            return _value;
         }
 
         public override string ToString()
         {
-            return value.ToString(CultureInfo.InvariantCulture);
+            return _value.ToString(CultureInfo.InvariantCulture);
         }
     }
 
     public sealed class MathInteger : MathValue
     {
-        private readonly double value;
+        private readonly double _value;
 
         public MathInteger(int value)
         {
-            this.value = value;
+            _value = value;
         }
 
         public override bool ToBoolean()
         {
-            return value != 0;
+            return _value != 0;
         }
 
         public override double ToNumber()
         {
-            return value;
+            return _value;
         }
 
         public override string ToString()
         {
-            return value.ToString(CultureInfo.InvariantCulture);
+            return _value.ToString(CultureInfo.InvariantCulture);
         }
     }
 

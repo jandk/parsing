@@ -1,13 +1,12 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.IO;
 using Parsing.Arithmetic.Expressions;
 using Parsing.Arithmetic.Library;
 
 namespace Parsing.Arithmetic
 {
-    public class MathInterpreter
+    public static class MathInterpreter
     {
         private static readonly Scanner Scanner = new Scanner();
         private static readonly Parser Parser = new Parser();
@@ -18,22 +17,36 @@ namespace Parsing.Arithmetic
 
             using (var reader = new StringReader(mathCode))
             {
-                var tokens = Scanner.Scan(reader);
+                IEnumerator<Token> tokens = Scanner.Scan(reader);
                 expression = (Expression)Parser.Parse(tokens);
             }
 
-            var context = CreateGlobalContext();
-            var result = expression.Evaluate(context);
+            MathContext context = CreateGlobalContext();
+            MathValue result = expression.Evaluate(context);
 
             Scanner.Reset();
             return result;
+        }
+
+        public static void DumpTree(string mathCode)
+        {
+            Expression expression;
+
+            using (var reader = new StringReader(mathCode))
+            {
+                IEnumerator<Token> tokens = Scanner.Scan(reader);
+                expression = (Expression)Parser.Parse(tokens);
+            }
+
+            Console.WriteLine(expression.ToString());
+            Scanner.Reset();
         }
 
         public static void DumpTokens(string mathCode)
         {
             using (var reader = new StringReader(mathCode))
             {
-                var tokens = Scanner.Scan(reader);
+                IEnumerator<Token> tokens = Scanner.Scan(reader);
                 while (tokens.MoveNext())
                     Console.WriteLine(tokens.Current);
             }
@@ -41,15 +54,15 @@ namespace Parsing.Arithmetic
             Scanner.Reset();
         }
 
-        public static MathContext CreateGlobalContext()
+        private static MathContext CreateGlobalContext()
         {
             var modules = new ILibrary[]
-            {
-                new MathLib()
-            };
+                {
+                    new MathLib()
+                };
 
             var context = new MathContext();
-            foreach (var module in modules)
+            foreach (ILibrary module in modules)
                 module.Register(context);
             return context;
         }

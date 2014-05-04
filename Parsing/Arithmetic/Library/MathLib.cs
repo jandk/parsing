@@ -4,7 +4,7 @@ namespace Parsing.Arithmetic.Library
 {
     public class MathLib : ILibrary
     {
-        private readonly Random Random = new Random();
+        private readonly Random _random = new Random();
 
         public void Register(MathContext context)
         {
@@ -26,7 +26,7 @@ namespace Parsing.Arithmetic.Library
             context.Register("exp", CreateFunction(Math.Exp));
             context.Register("floor", CreateFunction(Math.Floor));
             context.Register("log", CreateFunction(Math.Log));
-            context.Register("random", args => new MathNumber(Random.NextDouble()));
+            context.Register("random", args => new MathNumber(_random.NextDouble()));
             context.Register("round", CreateFunction(Math.Round));
             context.Register("sin", CreateFunction(Math.Sin));
             context.Register("sqrt", CreateFunction(Math.Sqrt));
