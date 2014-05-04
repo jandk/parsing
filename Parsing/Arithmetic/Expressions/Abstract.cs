@@ -11,6 +11,6 @@
 
     public abstract class Statement : Node
     {
-        public abstract void Execute();
+        public abstract void Execute(MathContext context);
     }
 }
