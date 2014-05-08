@@ -6,25 +6,26 @@ using Parsing.Arithmetic.Library;
 
 namespace Parsing.Arithmetic
 {
-    public static class MathInterpreter
+    public class MathInterpreter
     {
-        private static readonly Scanner Scanner = new Scanner();
-        private static readonly Parser Parser = new Parser();
+        private static readonly MathContext Context = CreateGlobalContext();
 
-        public static MathValue Interpret(string mathCode)
+        public static MathValue InterpretSingle(string mathCode)
         {
             Expression expression;
 
+            var scanner = new Scanner();
+            var parser = new Parser();
+
             using (var reader = new StringReader(mathCode))
             {
-                IEnumerator<Token> tokens = Scanner.Scan(reader);
-                expression = (Expression)Parser.Parse(tokens);
+				var tokens = scanner.Scan(reader);
+				expression = (Expression)parser.Parse(tokens);
             }
 
-            MathContext context = CreateGlobalContext();
-            MathValue result = expression.Evaluate(context);
+            var context = CreateGlobalContext();
+            var result = expression.Evaluate(context);
 
-            Scanner.Reset();
             return result;
         }
 
@@ -32,26 +33,28 @@ namespace Parsing.Arithmetic
         {
             Expression expression;
 
-            using (var reader = new StringReader(mathCode))
+			var scanner = new Scanner();
+			var parser = new Parser();
+
+			using (var reader = new StringReader(mathCode))
             {
-                IEnumerator<Token> tokens = Scanner.Scan(reader);
-                expression = (Expression)Parser.Parse(tokens);
+				var tokens = scanner.Scan(reader);
+                expression = (Expression)parser.Parse(tokens);
             }
 
             Console.WriteLine(expression.ToString());
-            Scanner.Reset();
         }
 
         public static void DumpTokens(string mathCode)
         {
-            using (var reader = new StringReader(mathCode))
+			var scanner = new Scanner();
+
+			using (var reader = new StringReader(mathCode))
             {
-                IEnumerator<Token> tokens = Scanner.Scan(reader);
+                var tokens = scanner.Scan(reader);
                 while (tokens.MoveNext())
                     Console.WriteLine(tokens.Current);
             }
-
-            Scanner.Reset();
         }
 
         private static MathContext CreateGlobalContext()
@@ -62,7 +65,7 @@ namespace Parsing.Arithmetic
                 };
 
             var context = new MathContext();
-            foreach (ILibrary module in modules)
+            foreach (var module in modules)
                 module.Register(context);
             return context;
         }
