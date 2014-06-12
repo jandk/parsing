@@ -129,6 +129,15 @@ namespace Parsing
             return c;
         }
 
+        protected char? Maybe(params char[] chars)
+        {
+            char peek = (char)Peek();
+            if (Array.IndexOf(chars, peek) < 0)
+                return null;
+
+            return peek;
+        }
+
         protected bool Maybe(char c)
         {
             if (Peek() == c)
