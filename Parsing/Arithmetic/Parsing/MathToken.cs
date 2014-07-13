@@ -1,13 +1,15 @@
-﻿using System.Globalization;
+using System.Globalization;
 
-namespace Parsing.Arithmetic
+namespace Parsing.Arithmetic.Parsing
 {
-    public class Token : IToken
+    public class MathToken 
+        : Token
     {
         private readonly Kind _kind;
         private readonly object _value;
 
-        private Token(Kind kind, object value)
+        private MathToken(Kind kind, object value)
+            : base(null)
         {
             _kind = kind;
             _value = value;
@@ -51,24 +53,24 @@ namespace Parsing.Arithmetic
             }
         }
 
-        public static Token FromKind(Kind kind)
+        public static MathToken FromKind(Kind kind)
         {
-            return new Token(kind, null);
+            return new MathToken(kind, null);
         }
 
-        public static Token FromBool(bool value)
+        public static MathToken FromBool(bool value)
         {
-            return new Token(Kind.Boolean, value);
+            return new MathToken(Kind.Boolean, value);
         }
 
-        public static Token FromNumber(double value)
+        public static MathToken FromNumber(double value)
         {
-            return new Token(Kind.Number, value);
+            return new MathToken(Kind.Number, value);
         }
 
-        public static Token FromIdentifier(string value)
+        public static MathToken FromIdentifier(string value)
         {
-            return new Token(Kind.Identifier, value);
+            return new MathToken(Kind.Identifier, value);
         }
     }
 }

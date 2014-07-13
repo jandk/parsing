@@ -43,24 +43,34 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Arithmetic\Library\ILibrary.cs" />
-    <Compile Include="Arithmetic\MathException.cs" />
-    <Compile Include="Arithmetic\Library\MathLib.cs" />
-    <Compile Include="Arithmetic\MathContext.cs" />
     <Compile Include="Arithmetic\Expressions\Abstract.cs" />
     <Compile Include="Arithmetic\Expressions\Binary.cs" />
-    <Compile Include="Arithmetic\Expressions\Other.cs" />
     <Compile Include="Arithmetic\Expressions\Constant.cs" />
+    <Compile Include="Arithmetic\Expressions\Other.cs" />
     <Compile Include="Arithmetic\Expressions\Unary.cs" />
-    <Compile Include="Arithmetic\Kind.cs" />
-    <Compile Include="Arithmetic\Parser.cs" />
-    <Compile Include="Arithmetic\Scanner.cs" />
-    <Compile Include="Arithmetic\Token.cs" />
-    <Compile Include="Arithmetic\MathValue.cs" />
+    <Compile Include="Arithmetic\Library\ILibrary.cs" />
+    <Compile Include="Arithmetic\Library\MathLib.cs" />
+    <Compile Include="Arithmetic\MathContext.cs" />
+    <Compile Include="Arithmetic\MathException.cs" />
     <Compile Include="Arithmetic\MathInterpreter.cs" />
-    <Compile Include="ParserBase.cs" />
+    <Compile Include="Arithmetic\MathValue.cs" />
+    <Compile Include="Arithmetic\Parsing\MathParser.cs" />
+    <Compile Include="Arithmetic\Parsing\MathTokenizer.cs" />
+    <Compile Include="Token.cs" />
+    <Compile Include="Arithmetic\Parsing\Kind.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Arithmetic\Parsing\MathToken.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="IParser.cs" />
+    <Compile Include="ITokenizer.cs" />
+    <Compile Include="IToken.cs" />
+    <Compile Include="Parser.cs" />
+    <Compile Include="Tokenizer.cs" />
+    <Compile Include="Location.cs" />
+    <Compile Include="TokenizerException.cs" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

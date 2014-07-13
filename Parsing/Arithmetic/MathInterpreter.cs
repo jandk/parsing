@@ -1,8 +1,9 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
+
 using Parsing.Arithmetic.Expressions;
 using Parsing.Arithmetic.Library;
+using Parsing.Arithmetic.Parsing;
 
 namespace Parsing.Arithmetic
 {
@@ -14,13 +15,13 @@ namespace Parsing.Arithmetic
         {
             Expression expression;
 
-            var scanner = new Scanner();
-            var parser = new Parser();
+            var tokenizer = new MathTokenizer();
+            var parser = new MathParser();
 
             using (var reader = new StringReader(mathCode))
             {
-				var tokens = scanner.Scan(reader);
-				expression = (Expression)parser.Parse(tokens);
+                var tokens = tokenizer.Tokenize(reader);
+                expression = parser.Parse(tokens);
             }
 
             var context = CreateGlobalContext();
@@ -33,13 +34,13 @@ namespace Parsing.Arithmetic
         {
             Expression expression;
 
-			var scanner = new Scanner();
-			var parser = new Parser();
+            var tokenizer = new MathTokenizer();
+            var parser = new MathParser();
 
-			using (var reader = new StringReader(mathCode))
+            using (var reader = new StringReader(mathCode))
             {
-				var tokens = scanner.Scan(reader);
-                expression = (Expression)parser.Parse(tokens);
+                var tokens = tokenizer.Tokenize(reader);
+                expression = parser.Parse(tokens);
             }
 
             Console.WriteLine(expression.ToString());
@@ -47,11 +48,11 @@ namespace Parsing.Arithmetic
 
         public static void DumpTokens(string mathCode)
         {
-			var scanner = new Scanner();
+            var tokenizer = new MathTokenizer();
 
-			using (var reader = new StringReader(mathCode))
+            using (var reader = new StringReader(mathCode))
             {
-                var tokens = scanner.Scan(reader);
+                var tokens = tokenizer.Tokenize(reader);
                 while (tokens.MoveNext())
                     Console.WriteLine(tokens.Current);
             }

@@ -1,4 +1,4 @@
-﻿namespace Parsing.Arithmetic.Expressions
+namespace Parsing.Arithmetic.Expressions
 {
     public abstract class Node
     {

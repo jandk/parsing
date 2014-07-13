@@ -1,14 +1,15 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Parsing.Arithmetic.Expressions;
 
-namespace Parsing.Arithmetic
+namespace Parsing.Arithmetic.Parsing
 {
-    public class Parser : ParserBase<Token>
+    public class MathParser
+        : Parser<MathToken,Expression>
     {
         #region IParser<T> Members
 
-        protected override object Parse()
+        protected override Expression Parse()
         {
             _ts.MoveNext();
 

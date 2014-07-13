@@ -1,4 +1,4 @@
-﻿namespace Parsing.Arithmetic
+namespace Parsing.Arithmetic.Parsing
 {
     public enum Kind
     {

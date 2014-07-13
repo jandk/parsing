@@ -1,4 +1,4 @@
-﻿namespace Parsing.Arithmetic.Library
+namespace Parsing.Arithmetic.Library
 {
     public interface ILibrary
     {

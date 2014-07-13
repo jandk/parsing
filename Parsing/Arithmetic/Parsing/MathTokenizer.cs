@@ -1,48 +1,49 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
-namespace Parsing.Arithmetic
+namespace Parsing.Arithmetic.Parsing
 {
-    public class Scanner : ScannerBase<Token>
+    public class MathTokenizer
+        : Tokenizer<MathToken>
     {
         #region Literals
 
         // TODO: They shouldn't be here, but be part of the global constants
-        private static readonly Dictionary<string, Token> Literals
-            = new Dictionary<string, Token>
+        private static readonly Dictionary<string, MathToken> Literals
+            = new Dictionary<string, MathToken>
             {
-                { "true", Token.FromBool(true) },
-                { "false", Token.FromBool(false) },
-                { "nan", Token.FromNumber(double.NaN) },
-                { "inf", Token.FromNumber(double.PositiveInfinity) },
+                { "true", MathToken.FromBool(true) },
+                { "false", MathToken.FromBool(false) },
+                { "nan", MathToken.FromNumber(double.NaN) },
+                { "inf", MathToken.FromNumber(double.PositiveInfinity) },
             };
 
         #endregion
 
-        #region ScannerBase<Token, Kind> Members
+        #region Tokenizer<Token> Members
 
-        protected override IEnumerator<Token> Scan()
+        protected override IEnumerator<MathToken> Tokenize()
         {
             while (Peek() != -1)
             {
                 if (Maybe(' '))
                     continue;
 
-                if (Peek().IsDec())
+                if (IsDec())
                 {
                     double value = ScanNumber();
-                    yield return Token.FromNumber(value);
+                    yield return MathToken.FromNumber(value);
                     continue;
                 }
 
-                if (Peek().IsAlpha())
+                if (IsAlpha())
                 {
                     string value = ScanIdentifier();
 
                     if (Literals.ContainsKey(value))
                         yield return Literals[value];
                     else
-                        yield return Token.FromIdentifier(value);
+                        yield return MathToken.FromIdentifier(value);
 
                     continue;
                 }
@@ -53,57 +54,56 @@ namespace Parsing.Arithmetic
                 switch (read = Read())
                 {
                     case '+':
-                        yield return Token.FromKind(Kind.OpPlus);
+                        yield return MathToken.FromKind(Kind.OpPlus);
                         break;
 
                     case '-':
-                        yield return Token.FromKind(Kind.OpMinus);
+                        yield return MathToken.FromKind(Kind.OpMinus);
                         break;
 
                     case '*':
                         if (Maybe('*'))
-                            yield return Token.FromKind(Kind.OpPower);
+                            yield return MathToken.FromKind(Kind.OpPower);
                         else
-                            yield return Token.FromKind(Kind.OpMultiply);
+                            yield return MathToken.FromKind(Kind.OpMultiply);
                         break;
 
                     case '/':
-                        yield return Token.FromKind(Kind.OpDivide);
+                        yield return MathToken.FromKind(Kind.OpDivide);
                         break;
 
                     case '%':
-                        yield return Token.FromKind(Kind.OpModulo);
+                        yield return MathToken.FromKind(Kind.OpModulo);
                         break;
 
                     case '~':
-                        yield return Token.FromKind(Kind.OpBinaryNot);
+                        yield return MathToken.FromKind(Kind.OpBinaryNot);
                         break;
 
                     case '!':
-                        yield return Token.FromKind(Kind.OpLogicalNot);
+                        yield return MathToken.FromKind(Kind.OpLogicalNot);
                         break;
 
                     case '(':
-                        yield return Token.FromKind(Kind.ParenLeft);
+                        yield return MathToken.FromKind(Kind.ParenLeft);
                         break;
 
                     case ')':
-                        yield return Token.FromKind(Kind.ParenRight);
+                        yield return MathToken.FromKind(Kind.ParenRight);
                         break;
 
                     case ',':
-                        yield return Token.FromKind(Kind.Comma);
+                        yield return MathToken.FromKind(Kind.Comma);
                         break;
 
                     default:
-                        Throw(string.Format("Illegal charcter '{0}'", (char)read));
-                        break;
+                        throw NewTokenizerException(string.Format("Illegal charcter '{0}'", (char)read));
                 }
 
                 #endregion
             }
 
-            yield return Token.FromKind(Kind.Eof);
+            yield return MathToken.FromKind(Kind.Eof);
         }
 
         #endregion
@@ -112,14 +112,14 @@ namespace Parsing.Arithmetic
 
         private double ScanNumber()
         {
-            if (!Peek().IsDec())
-                Throw("Expected a digit");
+            if (!IsDec())
+                throw NewTokenizerException("Expected a digit");
 
             // Integer part
             double d = 0;
             if (!Maybe('0'))
-                while (Peek().IsDec())
-                    d = (d * 10) + Read().FromDec();
+                while (IsDec())
+                    d = (d * 10) + GetDec();
 
             // Fractional part
             if (Maybe('.'))
@@ -127,12 +127,12 @@ namespace Parsing.Arithmetic
                 double f = 0;
                 double w = 0.1;
 
-                if (!Peek().IsDec())
-                    Throw("At least one digit after '.'");
+                if (!IsDec())
+                    throw NewTokenizerException("At least one digit after '.'");
 
-                while (Peek().IsDec())
+                while (IsDec())
                 {
-                    f += w * Read().FromDec();
+                    f += w * GetDec();
                     w *= 0.1;
                 }
 
@@ -150,12 +150,12 @@ namespace Parsing.Arithmetic
                     Read();
                 }
 
-                if (!Peek().IsDec())
-                    Throw("At least one digit after 'e' or 'E'.");
+                if (!IsDec())
+                    throw NewTokenizerException("At least one digit after 'e' or 'E'.");
 
                 double e = 0;
-                while (Peek().IsDec())
-                    e = (e * 10) + Read().FromDec();
+                while (IsDec())
+                    e = (e * 10) + GetDec();
 
                 if (negate)
                     e = -e;
@@ -172,12 +172,12 @@ namespace Parsing.Arithmetic
 
         private string ScanIdentifier()
         {
-            if (!Peek().IsAlpha())
-                Throw("Expected a letter");
+            if (!IsAlpha())
+                throw NewTokenizerException("Expected a letter");
 
             string identifier = string.Empty;
-            while (Peek().IsAlphaDec())
-                identifier += Read().FromAlphaDec();
+            while (IsAlpha() || IsDec())
+                identifier += (char)Read();
 
             return identifier;
         }
